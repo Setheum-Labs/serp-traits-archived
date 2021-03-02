@@ -51,6 +51,15 @@ pub trait SettCurrency<AccountId> {
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
 
+	/// The initial amount of issuance of `currency_id`.
+	fn initial_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
+	
+	/// The minimum amount of issuance of `currency_id`.
+	fn minimum_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
+	
+	/// The base unit of issuance of `currency_id`.
+	fn base_unit(currency_id: Self::CurrencyId) -> Self::Balance;
+
 	// The combined balance of `who` under `currency_id`.
 	fn total_balance(currency_id: Self::CurrencyId, who: &AccountId) -> Self::Balance;
 
