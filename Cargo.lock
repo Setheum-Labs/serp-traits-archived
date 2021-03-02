@@ -1359,7 +1359,7 @@ dependencies = [
 
 [[package]]
 name = "serp-traits"
-version = "0.4.1-dev"
+version = "0.4.3-dev"
 dependencies = [
  "frame-support",
  "funty",
