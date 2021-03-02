@@ -1,6 +1,6 @@
 use crate::arithmetic;
 use codec::{Codec, FullCodec};
-pub use frame_support::traits::{BalanceStatus, LockIdentifier};
+pub use frame_support::traits::{BalanceStatus, LockIdentifier, Imbalance};
 use sp_runtime::{
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize},
 	DispatchError, DispatchResult,
@@ -20,10 +20,33 @@ pub trait SettCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 
+	/// The opaque token type for an imbalance. This is returned by unbalanced operations
+	/// and must be dealt with. It may be dropped but cannot be cloned.
+	type PositiveImbalance: Imbalance<Self::Balance, Opposite=Self::NegativeImbalance>;
+
+	/// The opaque token type for an imbalance. This is returned by unbalanced operations
+	/// and must be dealt with. It may be dropped but cannot be cloned.
+	type NegativeImbalance: Imbalance<Self::Balance, Opposite=Self::PositiveImbalance>;
+
 	// Public immutables
 
 	/// Existential deposit of `currency_id`.
 	fn minimum_balance(currency_id: Self::CurrencyId) -> Self::Balance;
+
+	/// Reduce the total issuance by `amount` and return the according imbalance. The imbalance will
+	/// typically be used to reduce an account by the same amount with e.g. `settle`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
+	/// in the case of underflow.
+	fn burn(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::PositiveImbalance;
+
+	/// Increase the total issuance by `amount` and return the according imbalance. The imbalance
+	/// will typically be used to increase an account by the same amount with e.g.
+	/// `resolve_into_existing` or `resolve_creating`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
+	/// in the case of overflow.
+	fn issue(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::NegativeImbalance;
 
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
@@ -188,10 +211,35 @@ pub trait BasicCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 
+
+	/// The opaque token type for an imbalance. This is returned by unbalanced operations
+	/// and must be dealt with. It may be dropped but cannot be cloned.
+	type PositiveImbalance: Imbalance<Self::Balance, Opposite=Self::NegativeImbalance>;
+
+	/// The opaque token type for an imbalance. This is returned by unbalanced operations
+	/// and must be dealt with. It may be dropped but cannot be cloned.
+	type NegativeImbalance: Imbalance<Self::Balance, Opposite=Self::PositiveImbalance>;
+
 	// Public immutables
 
 	/// Existential deposit.
 	fn minimum_balance() -> Self::Balance;
+
+
+	/// Reduce the total issuance by `amount` and return the according imbalance. The imbalance will
+	/// typically be used to reduce an account by the same amount with e.g. `settle`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
+	/// in the case of underflow.
+	fn burn(amount: Self::Balance)  -> Self::PositiveImbalance;
+
+	/// Increase the total issuance by `amount` and return the according imbalance. The imbalance
+	/// will typically be used to increase an account by the same amount with e.g.
+	/// `resolve_into_existing` or `resolve_creating`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
+	/// in the case of overflow.
+	fn issue(amount: Self::Balance)  -> Self::NegativeImbalance;
 
 	/// The total amount of issuance.
 	fn total_issuance() -> Self::Balance;
