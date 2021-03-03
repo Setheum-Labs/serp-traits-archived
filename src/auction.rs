@@ -25,6 +25,8 @@ pub struct AuctionInfo<AccountId, Balance, BlockNumber> {
 
 /// Abstraction over a simple auction system.
 pub trait Auction<AccountId, BlockNumber> {
+	/// The currency identifier.
+	type CurrencyId: FullCodec + Eq + PartialEq + Copy + MaybeSerializeDeserialize + Debug;
 	/// The id of an AuctionInfo
 	type AuctionId: FullCodec + Default + Copy + Eq + PartialEq + MaybeSerializeDeserialize + Bounded + Debug;
 	/// The price to bid.
