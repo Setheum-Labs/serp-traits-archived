@@ -1,6 +1,7 @@
 use crate::arithmetic;
 use codec::{Codec, FullCodec};
-pub use frame_support::traits::{BalanceStatus, LockIdentifier, Imbalance};
+pub use frame_support::{traits::{BalanceStatus, LockIdentifier, Imbalance}, 
+	weights::Weight};
 use sp_runtime::{
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize},
 	DispatchError, DispatchResult,
@@ -50,6 +51,15 @@ pub trait SettCurrency<AccountId> {
 
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
+
+	/// The initial amount of issuance of `currency_id`.
+	fn initial_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
+	
+	/// The minimum amount of issuance of `currency_id`.
+	fn minimum_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
+	
+	/// The base unit of issuance of `currency_id`.
+	fn base_unit(currency_id: Self::CurrencyId) -> Self::Balance;
 
 	// The combined balance of `who` under `currency_id`.
 	fn total_balance(currency_id: Self::CurrencyId, who: &AccountId) -> Self::Balance;
@@ -206,11 +216,27 @@ pub trait SettCurrencyReservable<AccountId>: SettCurrency<AccountId> {
 	) -> result::Result<Self::Balance, DispatchError>;
 }
 
+/// A fungible multi-stable-currency system where funds can be reserved from the user.
+pub trait SettCurrencySwappable<AccountId>: SettCurrency<AccountId> {
+	/// Reserve the resources needed for the swap, from the given `source`. The reservation is
+	/// allowed to fail. If that is the case, the the full swap creation operation is cancelled.
+	fn reserve(currency_id: Self::CurrencyId, source: &AccountId, value: Self::Balance) -> DispatchResult;
+
+	/// Claim the reserved resources, with `source` and `target`. Returns whether the claim
+	/// succeeds.
+	fn claim(currency_id: Self::CurrencyId, source: &AccountId, target: &AccountId, value: Self::Balance) -> bool;
+
+	/// Weight for executing the operation.
+	fn weight(&self) -> Weight;
+
+	/// Cancel the resources reserved in `source`.
+	fn cancel(currency_id: Self::CurrencyId, source: &AccountId, value: Self::Balance) -> Self::Balance;
+}
+
 /// Abstraction over a fungible (single) currency system.
 pub trait BasicCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
-
 
 	/// The opaque token type for an imbalance. This is returned by unbalanced operations
 	/// and must be dealt with. It may be dropped but cannot be cloned.
