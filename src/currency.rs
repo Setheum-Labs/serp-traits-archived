@@ -17,10 +17,6 @@ pub trait SettCurrency<AccountId> {
 	/// The currency identifier.
 	type CurrencyId: FullCodec + Eq + PartialEq + Copy + MaybeSerializeDeserialize + Debug;
 
-	/// The amount of Coins that are meant to track the value. Example: A value of 1_000 when tracking
-	/// Dollars means that the Stablecoin will try to maintain a price of 1_000 Base units/pennies for 1$.
-	type BaseUnit: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
-
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 	
@@ -41,9 +37,6 @@ pub trait SettCurrency<AccountId> {
 
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::TotalIssuance;
-
-	/// The base unit of issuance of `currency_id`.
-	fn base_unit(currency_id: Self::CurrencyId) -> Self::Balance;
 
 	// The combined balance of `who` under `currency_id`.
 	fn total_balance(currency_id: Self::CurrencyId, who: &AccountId) -> Self::Balance;
