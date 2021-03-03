@@ -17,6 +17,10 @@ pub trait SettCurrency<AccountId> {
 	/// The currency identifier.
 	type CurrencyId: FullCodec + Eq + PartialEq + Copy + MaybeSerializeDeserialize + Debug;
 
+	/// The amount of Coins that are meant to track the value. Example: A value of 1_000 when tracking
+	/// Dollars means that the Stablecoin will try to maintain a price of 1_000 Base units/pennies for 1$.
+	type BaseUnit: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
+
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 	
