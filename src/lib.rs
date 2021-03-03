@@ -12,8 +12,10 @@ use serde::{Deserialize, Serialize};
 
 pub use auction::{Auction, AuctionHandler, AuctionInfo, OnNewBidResult};
 pub use currency::{
-	BalanceStatus, BasicCurrency, BasicCurrencyExtended, BasicLockableCurrency, BasicReservableCurrency,
-	LockIdentifier, SettCurrency, SettCurrencyExtended, SettCurrencyLockable, SettCurrencyReservable, SettCurrencySwappable, OnDust,
+	BalanceStatus, BasicCurrency, BasicCurrencyExtended, BasicLockableCurrency, 
+	BasicReservableCurrency, BasicSwappableCurrency,
+	LockIdentifier, SettCurrency, SettCurrencyExtended, SettCurrencyLockable, 
+	SettCurrencyReservable, SettCurrencySwappable, OnDust,
 };
 pub use data_provider::{DataFeeder, DataProvider, DataProviderExtended};
 pub use get_by_key::GetByKey;
