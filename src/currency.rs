@@ -1,7 +1,6 @@
 use crate::arithmetic;
 use codec::{Codec, FullCodec};
-pub use frame_support::{traits::{BalanceStatus, LockIdentifier, Imbalance}, 
-	weights::Weight};
+pub use frame_support::traits::{BalanceStatus, LockIdentifier, Imbalance};
 use sp_runtime::{
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize},
 	DispatchError, DispatchResult,
@@ -225,9 +224,6 @@ pub trait SettCurrencySwappable<AccountId>: SettCurrency<AccountId> {
 	/// Claim the reserved resources, with `source` and `target`. Returns whether the claim
 	/// succeeds.
 	fn claim(currency_id: Self::CurrencyId, source: &AccountId, target: &AccountId, value: Self::Balance) -> bool;
-
-	/// Weight for executing the operation.
-	fn weight(&self) -> Weight;
 
 	/// Cancel the resources reserved in `source`.
 	fn cancel(currency_id: Self::CurrencyId, source: &AccountId, value: Self::Balance) -> Self::Balance;
