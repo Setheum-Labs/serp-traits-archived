@@ -47,6 +47,21 @@ pub trait SettCurrency<AccountId> {
 	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
 	/// in the case of overflow.
 	fn issue(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::NegativeImbalance;
+		
+	/// Reduce the total issuance of SettCurrency by `amount` and return the according imbalance. The imbalance will
+	/// typically be used to reduce an account by the same amount with e.g. `settle`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
+	/// in the case of underflow.
+	fn contract_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::PositiveImbalance;
+
+	/// Increase the total issuance of SettCurrency by `amount` and return the according imbalance. The imbalance
+	/// will typically be used to increase an account by the same amount with e.g.
+	/// `resolve_into_existing` or `resolve_creating`.
+	///
+	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
+	/// in the case of overflow.
+	fn expand_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::NegativeImbalance;
 
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
@@ -252,7 +267,7 @@ pub trait BasicCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
 	/// in the case of underflow.
-	fn serp_buys_Dinar(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::PositiveImbalance;
+	fn serp_buys_dinar(amount: Self::Balance) -> Self::PositiveImbalance;
 
 	/// Increase the total issuance of Dinar when Sold for SettCurrencies by `amount` and return the according imbalance. The imbalance
 	/// will typically be used to increase an account by the same amount with e.g.
@@ -260,7 +275,7 @@ pub trait BasicCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
 	/// in the case of overflow.
-	fn serp_sells_Dinar(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::NegativeImbalance;
+	fn serp_sells_dinar(amount: Self::Balance) -> Self::NegativeImbalance;
 
 	/// The total amount of issuance.
 	fn total_issuance() -> Self::Balance;
