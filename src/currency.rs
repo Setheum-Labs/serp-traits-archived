@@ -20,14 +20,6 @@ pub trait SettCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 
-	/// The opaque token type for an imbalance. This is returned by unbalanced operations
-	/// and must be dealt with. It may be dropped but cannot be cloned.
-	type PositiveImbalance: Imbalance<Self::Balance, Opposite=Self::NegativeImbalance>;
-
-	/// The opaque token type for an imbalance. This is returned by unbalanced operations
-	/// and must be dealt with. It may be dropped but cannot be cloned.
-	type NegativeImbalance: Imbalance<Self::Balance, Opposite=Self::PositiveImbalance>;
-
 	// Public immutables
 
 	/// Existential deposit of `currency_id`.
@@ -38,7 +30,7 @@ pub trait SettCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
 	/// in the case of underflow.
-	fn contract_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::PositiveImbalance;
+	fn contract_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> DispatchResult;
 
 	/// Increase the total issuance of SettCurrency by `amount` and return the according imbalance. The imbalance
 	/// will typically be used to increase an account by the same amount with e.g.
@@ -46,17 +38,11 @@ pub trait SettCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
 	/// in the case of overflow.
-	fn expand_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> Self::NegativeImbalance;
+	fn expand_issuance(currency_id: Self::CurrencyId, amount: Self::Balance) -> DispatchResult;
 
 	/// The total amount of issuance of `currency_id`.
 	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
 
-	/// The initial amount of issuance of `currency_id`.
-	fn initial_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
-	
-	/// The minimum amount of issuance of `currency_id`.
-	fn minimum_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
-	
 	/// The base unit of issuance of `currency_id`.
 	fn base_unit(currency_id: Self::CurrencyId) -> Self::Balance;
 
@@ -234,14 +220,7 @@ pub trait BasicCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 
-	/// The opaque token type for an imbalance. This is returned by unbalanced operations
-	/// and must be dealt with. It may be dropped but cannot be cloned.
-	type PositiveImbalance: Imbalance<Self::Balance, Opposite=Self::NegativeImbalance>;
-
-	/// The opaque token type for an imbalance. This is returned by unbalanced operations
-	/// and must be dealt with. It may be dropped but cannot be cloned.
-	type NegativeImbalance: Imbalance<Self::Balance, Opposite=Self::PositiveImbalance>;
-
+	/// T
 	// Public immutables
 
 	/// Existential deposit.
@@ -252,7 +231,7 @@ pub trait BasicCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
 	/// in the case of underflow.
-	fn serp_buys_dinar(amount: Self::Balance) -> Self::PositiveImbalance;
+	fn burn_dinar(amount: Self::Balance) -> DispatchResult;
 
 	/// Increase the total issuance of Dinar when Sold for SettCurrencies by `amount` and return the according imbalance. The imbalance
 	/// will typically be used to increase an account by the same amount with e.g.
@@ -260,7 +239,7 @@ pub trait BasicCurrency<AccountId> {
 	///
 	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
 	/// in the case of overflow.
-	fn serp_sells_dinar(amount: Self::Balance) -> Self::NegativeImbalance;
+	fn issue_dinar(amount: Self::Balance) -> DispatchResult;
 
 	/// The total amount of issuance.
 	fn total_issuance() -> Self::Balance;
