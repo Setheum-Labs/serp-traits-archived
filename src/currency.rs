@@ -20,8 +20,6 @@ pub trait SettCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 	
-	type TotalIssuance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
-
 	// Public immutables
 
 	/// Existential deposit of `currency_id`.
@@ -36,7 +34,7 @@ pub trait SettCurrency<AccountId> {
 	fn withdraw_contract_issuance(currency_id: Self::CurrencyId, who: &AccountId, amount: Self::Balance) -> DispatchResult;
 
 	/// The total amount of issuance of `currency_id`.
-	fn total_issuance(currency_id: Self::CurrencyId) -> Self::TotalIssuance;
+	fn total_issuance(currency_id: Self::CurrencyId) -> Self::Balance;
 
 	// The combined balance of `who` under `currency_id`.
 	fn total_balance(currency_id: Self::CurrencyId, who: &AccountId) -> Self::Balance;
