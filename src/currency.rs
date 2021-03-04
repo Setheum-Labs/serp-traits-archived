@@ -1,6 +1,7 @@
 use crate::arithmetic;
 use codec::{Codec, FullCodec};
-pub use frame_support::traits::{BalanceStatus, LockIdentifier, Imbalance};
+pub use frame_support::traits::{BalanceStatus, LockIdentifier};
+
 use sp_runtime::{
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize},
 	DispatchError, DispatchResult,
