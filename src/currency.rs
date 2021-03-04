@@ -241,6 +241,12 @@ pub trait BasicCurrency<AccountId> {
 	/// Remove `amount` from the balance of `who` and reduce total issuance.
 	fn withdraw(who: &AccountId, amount: Self::Balance) -> DispatchResult;
 
+	/// Add `amount` to the balance of `who` and increase total issuance.
+	fn deposit_expand_issuance(who: &AccountId, amount: Self::Balance) -> DispatchResult;
+
+	/// Remove `amount` from the balance of `who` and reduce total issuance.
+	fn withdraw_contract_issuance(who: &AccountId, amount: Self::Balance) -> DispatchResult;
+
 	/// Same result as `slash(who, value)` (but without the side-effects)
 	/// assuming there are no balance changes in the meantime and only the
 	/// reserved balance is not taken into account.
