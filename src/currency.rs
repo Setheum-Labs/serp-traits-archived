@@ -216,21 +216,6 @@ pub trait BasicCurrency<AccountId> {
 	/// Existential deposit.
 	fn minimum_balance() -> Self::Balance;
 
-	/// Reduce the total issuance of Dinar when Bought with SettCurrencies by `amount` and return the according imbalance. The imbalance will
-	/// typically be used to reduce an account by the same amount with e.g. `settle`.
-	///
-	/// This is infallible, but doesn't guarantee that the entire `amount` is burnt, for example
-	/// in the case of underflow.
-	fn burn(amount: Self::Balance) -> DispatchResult;
-
-	/// Increase the total issuance of Dinar when Sold for SettCurrencies by `amount` and return the according imbalance. The imbalance
-	/// will typically be used to increase an account by the same amount with e.g.
-	/// `resolve_into_existing` or `resolve_creating`.
-	///
-	/// This is infallible, but doesn't guarantee that the entire `amount` is issued, for example
-	/// in the case of overflow.
-	fn issue(amount: Self::Balance) -> DispatchResult;
-
 	/// The total amount of issuance.
 	fn total_issuance() -> Self::Balance;
 
