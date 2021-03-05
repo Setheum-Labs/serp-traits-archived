@@ -1,9 +1,0 @@
-/home/iamkhalifaMBA/Documents/GitHub/serp-traits/target/debug/deps/libparity_scale_codec_derive-d217cb86a1b33f53.so: /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/lib.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/decode.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/encode.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/utils.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/trait_bounds.rs
-
-/home/iamkhalifaMBA/Documents/GitHub/serp-traits/target/debug/deps/parity_scale_codec_derive-d217cb86a1b33f53.d: /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/lib.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/decode.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/encode.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/utils.rs /home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/trait_bounds.rs
-
-/home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/lib.rs:
-/home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/decode.rs:
-/home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/encode.rs:
-/home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/utils.rs:
-/home/iamkhalifaMBA/.cargo/registry/src/github.com-1ecc6299db9ec823/parity-scale-codec-derive-2.0.1/src/trait_bounds.rs:
