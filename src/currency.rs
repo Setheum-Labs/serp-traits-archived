@@ -192,26 +192,11 @@ pub trait SettCurrencyReservable<AccountId>: SettCurrency<AccountId> {
 	) -> result::Result<Self::Balance, DispatchError>;
 }
 
-/// A fungible multi-stable-currency system where funds can be reserved from the user.
-pub trait SettCurrencySwappable<AccountId>: SettCurrency<AccountId> {
-	/// Reserve the resources needed for the swap, from the given `source`. The reservation is
-	/// allowed to fail. If that is the case, the the full swap creation operation is cancelled.
-	fn reserve(currency_id: Self::CurrencyId, source: &AccountId, value: Self::Balance) -> DispatchResult;
-
-	/// Claim the reserved resources, with `source` and `target`. Returns whether the claim
-	/// succeeds.
-	fn claim(currency_id: Self::CurrencyId, source: &AccountId, target: &AccountId, value: Self::Balance) -> bool;
-
-	/// Cancel the resources reserved in `source`.
-	fn cancel(currency_id: Self::CurrencyId, source: &AccountId, value: Self::Balance) -> Self::Balance;
-}
-
 /// Abstraction over a fungible (single) currency system.
 pub trait BasicCurrency<AccountId> {
 	/// The balance of an account.
 	type Balance: AtLeast32BitUnsigned + FullCodec + Copy + MaybeSerializeDeserialize + Debug + Default;
 
-	/// T
 	// Public immutables
 
 	/// Existential deposit.
@@ -355,19 +340,6 @@ pub trait BasicReservableCurrency<AccountId>: BasicCurrency<AccountId> {
 		value: Self::Balance,
 		status: BalanceStatus,
 	) -> result::Result<Self::Balance, DispatchError>;
-}
-
-/// A fungible multi-stable-currency system where funds can be reserved from the user.
-pub trait BasicSwappableCurrency<AccountId>: BasicCurrency<AccountId> {
-	/// Reserve the resources needed for the swap, from the given `source`. The reservation is
-	/// allowed to fail. If that is the case, the the full swap creation operation is cancelled.
-	fn reserve(source: &AccountId, value: Self::Balance) -> DispatchResult;
-	/// Claim the reserved resources, with `source` and `target`. Returns whether the claim
-	/// succeeds.
-	fn claim(source: &AccountId, target: &AccountId, value: Self::Balance) -> bool;
-
-	/// Cancel the resources reserved in `source`.
-	fn cancel(source: &AccountId, value: Self::Balance) -> Self::Balance;
 }
 
 /// Handler for account which has dust, need to burn or recycle it
